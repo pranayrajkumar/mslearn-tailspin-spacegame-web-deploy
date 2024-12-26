@@ -136,5 +136,5 @@ stages:
             inputs:
               azureSubscription: 'Visual Studio Enterprise Subscription(be40f85a-7ca1-48fb-bfb5-11fe1320e9a8)'
               appType: 'webAppLinux'
-              appName: '$(WebAppNameProductio)'
+              appName: '$(WebAppNameProduction)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
