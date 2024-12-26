@@ -136,5 +136,8 @@ stages:
             inputs:
               azureSubscription: 'Visual Studio Enterprise Subscription(be40f85a-7ca1-48fb-bfb5-11fe1320e9a8)'
               appType: 'webAppLinux'
-              appName: '$(WebAppNameProduction)'
+              appName: 'tailspin-space-game-web-production-22901'
+              deployToSlotOrASE: true
+              resourceGroupName: 'tailspin-space-game-rg'
+              slotName: 'secondary-slot'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
