@@ -86,7 +86,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: dev website'
             inputs:
-              azureSubscription: 'Visual Studio Enterprise Subscription(be40f85a-7ca1-48fb-bfb5-11fe1320e9a8)'
+              azureSubscription: 'Visual Studio Enterprise Subscription(1)(be40f85a-7ca1-48fb-bfb5-11fe1320e9a8)'
               appType: 'webAppLinux'
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
@@ -110,7 +110,7 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: staging website'
             inputs:
-              azureSubscription: 'Visual Studio Enterprise Subscription(be40f85a-7ca1-48fb-bfb5-11fe1320e9a8)'
+              azureSubscription: 'Visual Studio Enterprise Subscription(1)(be40f85a-7ca1-48fb-bfb5-11fe1320e9a8)'
               appType: 'webAppLinux'
               appName: '$(WebAppNameStaging)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
@@ -132,11 +132,11 @@ stages:
           - download: current
             artifact: drop
           - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: staging website'
+            displayName: 'Azure App Service Deploy: Production website'
             inputs:
-              azureSubscription: 'Visual Studio Enterprise Subscription(be40f85a-7ca1-48fb-bfb5-11fe1320e9a8)'
+              azureSubscription: 'Visual Studio Enterprise Subscription(1)(be40f85a-7ca1-48fb-bfb5-11fe1320e9a8)'
               appType: 'webAppLinux'
-              appName: 'tailspin-space-game-web-production-22901'
+              appName: '$(WebAppNameProduction)'
               deployToSlotOrASE: true
               resourceGroupName: 'tailspin-space-game-rg'
               slotName: 'secondary-slot'
