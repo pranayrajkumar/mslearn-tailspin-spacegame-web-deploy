@@ -6,7 +6,6 @@
     "gulp-uglify": "3.0.0",
     "node-sass": "^7.0.1",
     "rimraf": "2.6.1",
-    "node-pre-gyp": "0.17.0",
-    "fsevents": "2.3.3"
+    "node-pre-gyp": "0.17.0"
   }
 }
