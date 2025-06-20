@@ -1,8 +1,22 @@
 trigger: none
 
-variables:
-  buildConfiguration: 'Release'
-  releaseBranchName: 'release'
+parameters:
+  - name: buildConfiguration
+    displayName: 'buildConfiguration'
+    type: string
+    default: Release
+    values:
+      - Release
+      - dev
+  #buildConfiguration: 'Release'
+  - name: releaseBranchName
+    displayName: 'releaseBranchName'
+    type: string
+    default: staging
+    values:
+      - prod
+      - staging
+  #releaseBranchName: 'release'
 
 stages:
 - stage: 'Build'
@@ -47,22 +61,22 @@ stages:
         projects: '**/*.csproj'
 
     - task: DotNetCoreCLI@2
-      displayName: 'Build the project - $(buildConfiguration)'
+      displayName: 'Build the project - $(parameters.buildConfiguration)'
       inputs:
         command: 'build'
-        arguments: '--no-restore --configuration $(buildConfiguration)'
+        arguments: '--no-restore --configuration $(parameters.buildConfiguration)'
         projects: '**/*.csproj'
-    - script: echo "--no-restore --configuration $(buildConfiguration)"
+    - script: echo "--no-restore --configuration $(parameters.buildConfiguration)"
 
     - task: DotNetCoreCLI@2
-      displayName: 'Publish the project - $(buildConfiguration)'
+      displayName: 'Publish the project - $(parameters.buildConfiguration)'
       inputs:
         command: 'publish'
         projects: '**/*.csproj'
         publishWebProjects: false
-        arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+        arguments: '--no-build --configuration $(parameters.buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
         zipAfterPublish: true
-    - script: echo "--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)"
+    - script: echo "--no-build --configuration $(parameters.buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)"
 
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
@@ -89,7 +103,7 @@ stages:
               azureSubscription: 'Azure for Students(85d18d0d-1aeb-4781-ad7a-3feb7d68475f)'
               appType: 'webAppLinux'
               appName: '$(WebAppNameDev)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+              package: '$(Pipeline.Workspace)/drop/$(parameters.buildConfiguration)/*.zip'
 - stage: 'Staging'
   displayName: 'Deploy to the staging environment'
   dependsOn: Dev
@@ -112,4 +126,4 @@ stages:
               azureSubscription: 'Azure for Students(85d18d0d-1aeb-4781-ad7a-3feb7d68475f)'
               appType: 'webAppLinux'
               appName: '$(WebAppNameStaging)'
-              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+              package: '$(Pipeline.Workspace)/drop/$(parameters.buildConfiguration)/*.zip'
