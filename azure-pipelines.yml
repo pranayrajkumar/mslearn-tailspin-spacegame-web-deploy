@@ -112,13 +112,13 @@ stages:
               appName: '$(WebAppNameStaging)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
 - stage: 'production'
-  displayName: 'Deploy to the staging environment'
+  displayName: 'Deploy to the production environment'
   dependsOn: staging
   jobs:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-22.04'
-    environment: staging
+    environment: production
     variables:
     - group: 'Release'
     strategy:
