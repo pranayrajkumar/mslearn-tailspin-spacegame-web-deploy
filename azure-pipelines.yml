@@ -1,22 +1,8 @@
 trigger: none
 
-parameters:
-  - name: buildConfiguration
-    displayName: 'buildConfiguration'
-    type: string
-    default: Release
-    values:
-      - Release
-      - dev
-  #buildConfiguration: 'Release'
-  - name: releaseBranchName
-    displayName: 'releaseBranchName'
-    type: string
-    default: staging
-    values:
-      - prod
-      - staging
-  #releaseBranchName: 'release'
+variables:
+  buildConfiguration: 'Release'
+  releaseBranchName: 'release'
 
 stages:
 - stage: 'Build'
