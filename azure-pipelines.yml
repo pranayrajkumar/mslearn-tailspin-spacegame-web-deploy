@@ -111,3 +111,27 @@ stages:
               appType: 'webAppLinux'
               appName: '$(WebAppNameStaging)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+- stage: 'production'
+  displayName: 'Deploy to the staging environment'
+  dependsOn: staging
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-22.04'
+    environment: staging
+    variables:
+    - group: 'Release'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: production website'
+            inputs:
+              azureSubscription: 'Azure for Students(85d18d0d-1aeb-4781-ad7a-3feb7d68475f)'
+              appType: 'webAppLinux'
+              appName: '$(WebAppNameProduction)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+
